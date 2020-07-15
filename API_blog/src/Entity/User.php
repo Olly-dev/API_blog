@@ -11,16 +11,32 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\ExistsFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+
 
 
 /**
- * 
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
  *      normalizationContext={"groups"={"user:read"}},
  *      collectionOperations={"get", "post"},
  *      itemOperations={"get","put", "patch", "delete"}
  * )
- * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ApiFilter(SearchFilter::class, properties={"email": "partial"})
+ * @ApiFilter(DateFilter::class, properties={"createdAt"})
+ * @ApiFilter(BooleanFilter::class, properties={"status"})
+ * @ApiFilter(NumericFilter::class, properties={"age"})
+ * @ApiFilter(RangeFilter::class, properties={"age"})
+ * @ApiFilter(ExistsFilter::class, properties={"updatedAt"})
+ * @ApiFilter(OrderFilter::class, properties={"id"}, arguments={"orderParameterName"="order"})
+ * 
  */
 class User implements UserInterface
 {
@@ -49,10 +65,23 @@ class User implements UserInterface
      */
     private Collection $articles;
 
+    /**
+     * @ORM\Column(type="boolean")
+     * @Groups({"article:read","user:read", "article:details:read"})
+     */
+    private bool $status;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $age;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
+        $this->status = true;
+        $this->age = 18;
     }
 
     public function getEmail(): ?string
@@ -155,6 +184,30 @@ class User implements UserInterface
                 $article->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+
+    public function setAge(int $age): self
+    {
+        $this->age = $age;
 
         return $this;
     }
