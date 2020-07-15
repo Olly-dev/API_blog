@@ -22,7 +22,7 @@ trait Timestampable
     {
         return $this->createdAt;
     }
-    function setUpdatedAt(?\DateTimeInterface $updatedAt): Timestampable
+    function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
         return $this;

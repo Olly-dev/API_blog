@@ -10,10 +10,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
+ * 
+ * @ApiResource(
+ *      normalizationContext={"groups"={"user:read"}},
+ *      collectionOperations={"get", "post"},
+ *      itemOperations={"get","put", "patch", "delete"}
+ * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ApiResource
  */
 class User implements UserInterface
 {
@@ -21,6 +28,7 @@ class User implements UserInterface
     use Timestampable;
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"user:read"})
      */
     private string $email;
 
@@ -37,6 +45,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="author", orphanRemoval=true)
+     * @Groups({"user:read"})
      */
     private Collection $articles;
 
