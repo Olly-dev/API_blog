@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace APP\Tests\Func;
+namespace App\Tests\Func;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
