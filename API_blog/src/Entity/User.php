@@ -19,6 +19,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\ExistsFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 
@@ -36,6 +38,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  * @ApiFilter(RangeFilter::class, properties={"age"})
  * @ApiFilter(ExistsFilter::class, properties={"updatedAt"})
  * @ApiFilter(OrderFilter::class, properties={"id"}, arguments={"orderParameterName"="order"})
+ * @UniqueEntity("email", message="Cette email existe déjà")
  * 
  */
 class User implements UserInterface
@@ -45,6 +48,8 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"user:read"})
+     * @Assert\NotBlank(message="L'email est obligatoire")
+     * @Assert\Email(message="email format invalide")
      */
     private string $email;
 
@@ -56,6 +61,8 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Le mot de passe est obligatoire")
+     * 
      */
     private string  $password;
 

@@ -15,11 +15,14 @@ class ArticleTest extends AbstractEndPoint
 {
     private string $articlePayload = '{"name": "%s", "content": "%s", "author":"%s"}';
 
-    public function testGetArticles(): void
+    public function testArticles(): array
     {
         $response = $this->getResponseFromRequest(
             Request::METHOD_GET,
-            '/api/articles'
+            '/api/articles',
+            '',
+            [],
+            false
         );
 
         $responseContent = $response->getContent();
@@ -28,6 +31,33 @@ class ArticleTest extends AbstractEndPoint
         self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
         self::assertJson($responseContent);
         self::assertNotEmpty($responseDecoded);
+
+        return $responseDecoded;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @depends testArticles
+     */
+    public function testGetArticles(array $res): void
+    {
+        $response = $this->getResponseFromRequest(
+            Request::METHOD_GET,
+            '/api/articles/'.$res[0]->id,
+            '',
+            [],
+            false
+        );
+
+        $responseContent = $response->getContent();
+        $responseDecoded = json_decode($responseContent, true);
+
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        self::assertJson($responseContent);
+        self::assertNotEmpty($responseDecoded);
+        self::assertNotSame($res[0], $responseDecoded);
+        self::assertContains("author", $responseContent);
     }
 
     public function testPostArticles(): void
@@ -35,7 +65,9 @@ class ArticleTest extends AbstractEndPoint
         $response = $this->getResponseFromRequest(
             Request::METHOD_POST,
             '/api/articles',
-            $this->getPayLoad()
+            $this->getPayLoad(),
+            [],
+            false
         );
 
         $responseContent = $response->getContent();
