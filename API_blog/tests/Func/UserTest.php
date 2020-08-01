@@ -150,15 +150,16 @@ class UserTest extends AbstractEndPoint
                                     Request::METHOD_DELETE, 
                                     '/api/users/'.$id
                             );
+
         $responseContent = $response->getContent();
         $responseDecoded = json_decode($responseContent, true);
 
-        //dd($responseDecoded['detail']);
+        
 
         self::assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
         self::assertJson($responseContent);
         self::assertNotEmpty($responseDecoded);
-        self::assertEquals($this->notYourResource, $responseDecoded['detail']);
+        self::assertEquals($this->notYourResource, $responseDecoded['message']);
     }
 
     /**

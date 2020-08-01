@@ -35,3 +35,24 @@ services:
         class: App\EventListener\JWTCreatedListener
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
+    blog_api.exception_subscriber:
+        class: App\Events\ExceptionListener
+        arguments:
+            - '@serializer'
+        tags:
+            - { name: Kernel.event_subscriber }
+
+    blog_api.normalizer.resource_access_exception:
+        class: App\Normalizer\ResourceAccessExceptionNormalizer
+        arguments:
+            - { type: 'App\Exceptions\ResourceAccessException' }
+        tags:
+            - { name: 'blog_api.normalizer' }
+
+    blog_api.normalizer.authentification_exception:
+        class: App\Normalizer\AuthentificationExceptionNormalizer
+        arguments:
+            - { type: 'App\Exceptions\AuthentificationException' }
+        tags:
+            - { name: 'blog_api.normalizer' }
