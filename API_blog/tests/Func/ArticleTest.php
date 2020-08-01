@@ -60,25 +60,7 @@ class ArticleTest extends AbstractEndPoint
         self::assertContains("author", $responseContent);
     }
 
-    public function testPostArticles(): void
-    {
-        $response = $this->getResponseFromRequest(
-            Request::METHOD_POST,
-            '/api/articles',
-            $this->getPayLoad(),
-            [],
-            false
-        );
-
-        $responseContent = $response->getContent();
-        $responseDecoded = json_decode($responseContent);
-
-        //dd($responseDecoded);
-
-        self::assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
-        self::assertJson($responseContent);
-        self::assertNotEmpty($responseDecoded);
-    }
+    
 
     private function getPayLoad(): string
     {

@@ -50,6 +50,34 @@ class UserTest extends TestCase
         self::assertContains($value, $this->user->getPassword());
     }
 
+    public function testGetAge(): void
+    {
+        $value = 18;
+
+        $response = $this->user->setAge($value);
+
+        self::assertInstanceOf(User::class, $response);
+        self::assertEquals($value, $this->user->getAge());
+    }
+
+    public function testSetAge(): void
+    {
+        $value = 18;
+
+        $response = $this->user->setAge($value);
+
+        self::assertInstanceOf(User::class, $response);
+        self::assertEquals($value, $this->user->getAge());
+    }
+
+    public function testSetStatus(): void
+    {
+        $response = $this->user->setStatus(true);
+
+        self::assertInstanceOf(User::class, $response);
+        self::assertTrue($this->user->getStatus());
+    }
+
     public function testGetArticle(): void
     {
         $value = new Article();
