@@ -1,0 +1,58 @@
+image: php:7.4
+
+variables:
+  MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+  MYSQL_USER: $MYSQL_USER
+  MYSQL_PASSWORD: $MYSQL_PASSWORD
+  MYSQL_DATABASE: $MYSQL_DATABASE
+  DB_HOST: $DB_HOST
+  DATABASE_URL: $DATABASE_URL
+
+cache:
+  paths:
+    - vendor/
+
+before_script:
+  - apt update -y
+  - pecl install xdebug
+  - docker-php-ext-enable xdebug
+  - apt install -y libzip-dev zip
+  - docker-php-ext-install pdo pdo_mysql zip
+  - curl -sS https://getcomposer.org/installer | php
+  - mv composer.phar /usr/local/bin/composer
+
+services:
+  - mysql:latest
+
+stages:
+  - build
+  - linter
+  - test
+
+build:
+  stage: build
+  script:
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress
+
+linter:
+  stage: linter
+  script:
+    - ./vendor/bin/phpcs -n
+  dependencies:
+    - build
+
+unit-test:
+  stage: test
+  script:
+    - php bin/phpunit tests/Unit/ --coverage-test --colors=never
+  dependencies:
+    - build
+
+func-test:
+  stage: test
+  script:
+    - php bin/console doctrine:schema:update --force --env=test
+    - php bin/console doctrine:fixture:load --no-interaction --env=test
+    - php bin/phpunit tests/Func/
+  dependencies:
+    - build

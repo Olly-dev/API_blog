@@ -1,0 +1,2 @@
+[![pipeline status](https://gitlab.com/Olly-dev1/API_blog/badges/master/pipeline.svg)](https://gitlab.com/Olly-dev1/API_blog/-/commits/master)
+[![coverage report](https://gitlab.com/Olly-dev1/API_blog/badges/master/coverage.svg)](https://gitlab.com/Olly-dev1/API_blog/-/commits/master)
