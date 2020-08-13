@@ -20,5 +20,4 @@ trait ResourceId
     {
         return $this->id;
     }
-
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Authorizations;
 
-use App\Authorizations\ResourceAccessCheckerInterface;
 use App\Exceptions\ResourceAccessException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
@@ -18,14 +17,11 @@ class ResourceAccessChecker implements ResourceAccessCheckerInterface
     {
         $this->user = $security->getUser();
     }
-    
+
     public function canAccess(?int $id): void
     {
-        if($this->user->getId() !== $id) {
-            throw new ResourceAccessException(
-                        Response::HTTP_UNAUTHORIZED,
-                        self::MESSAGE_ERROR
-            );
+        if ($this->user->getId() !== $id) {
+            throw new ResourceAccessException(Response::HTTP_UNAUTHORIZED, self::MESSAGE_ERROR);
         }
     }
 }

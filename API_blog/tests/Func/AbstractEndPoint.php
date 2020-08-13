@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Func;
 
+use App\DataFixtures\AppFixtures;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\DataFixtures\AppFixtures;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 abstract class AbstractEndPoint extends WebTestCase
 {
@@ -18,18 +18,17 @@ abstract class AbstractEndPoint extends WebTestCase
     protected string $loginPayload = '{"username":"%s", "password":"%s"}';
 
     public function getResponseFromRequest(
-                        string $method, 
-                        string $uri, 
-                        string $payload = '',
-                        array $parameter = [],
-                        bool $withAuthentification = true
-                    ): Response
-    {
+        string $method,
+        string $uri,
+        string $payload = '',
+        array $parameter = [],
+        bool $withAuthentification = true
+    ): Response {
         $client = $this->createAuthentificationClient($withAuthentification);
 
         $client->request(
             $method,
-            $uri . '.json',
+            $uri.'.json',
             $parameter,
             [],
             $this->serverInformations,
@@ -43,7 +42,7 @@ abstract class AbstractEndPoint extends WebTestCase
     {
         $client = static::createClient();
 
-        if(!$withAuthentification) {
+        if (!$withAuthentification) {
             return $client;
         }
 

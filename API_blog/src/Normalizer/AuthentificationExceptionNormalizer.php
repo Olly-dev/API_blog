@@ -11,8 +11,8 @@ class AuthentificationExceptionNormalizer extends AbstractNormalizer
     public function normalize(\Exception $exception): array
     {
         return $this->exceptionNormalizerFormatter->format(
-                                                        $exception->getMessage(), 
-                                                        Response::HTTP_UNAUTHORIZED
-                                                    );
+            $exception->getMessage(),
+            Response::HTTP_UNAUTHORIZED
+        );
     }
 }

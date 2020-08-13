@@ -12,9 +12,9 @@ abstract class AbstractNormalizer implements NormalizerInterface
     protected ExceptionNormalizerFormatterInterface $exceptionNormalizerFormatter;
 
     public function __construct(
-            array $exceptionTypes, 
-            ExceptionNormalizerFormatterInterface $exceptionNormalizerFormatter)
-    {
+        array $exceptionTypes,
+        ExceptionNormalizerFormatterInterface $exceptionNormalizerFormatter
+    ) {
         $this->exceptionTypes = $exceptionTypes;
         $this->exceptionNormalizerFormatter = $exceptionNormalizerFormatter;
     }

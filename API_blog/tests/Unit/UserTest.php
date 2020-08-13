@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Unit;
 
 use App\Entity\Article;
-use PHPUnit\Framework\TestCase;
 use App\Entity\User;
+use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
@@ -35,8 +35,8 @@ class UserTest extends TestCase
 
         $response = $this->user->setRoles($value);
 
-        self::assertInstanceOf(User::class, $response);  
-        self::assertContains('ROLE_USER',$this->user->getRoles());
+        self::assertInstanceOf(User::class, $response);
+        self::assertContains('ROLE_USER', $this->user->getRoles());
         self::assertContains('ROLE_ADMIN', $this->user->getRoles());
     }
 

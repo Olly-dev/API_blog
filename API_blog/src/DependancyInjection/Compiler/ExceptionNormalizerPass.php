@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 class ExceptionNormalizerPass implements CompilerPassInterface
- {
+{
     public function process(ContainerBuilder $container)
     {
         $exceptionListenerDefinition = $container->findDefinition('blog_api.events.exception_subscriber');
@@ -20,4 +20,4 @@ class ExceptionNormalizerPass implements CompilerPassInterface
             $exceptionListenerDefinition->addMethodCall('addNormalizer', [new Reference($normaliser)]);
         }
     }
- }
+}

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Func;
 
+use Faker\Factory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Faker\Factory; 
 
 /**
- * Functional creation test api articles
+ * Functional creation test api articles.
  */
 class ArticleTest extends AbstractEndPoint
 {
@@ -36,7 +36,7 @@ class ArticleTest extends AbstractEndPoint
     }
 
     /**
-     * Undocumented function
+     * Undocumented function.
      *
      * @depends testArticles
      */
@@ -57,10 +57,8 @@ class ArticleTest extends AbstractEndPoint
         self::assertJson($responseContent);
         self::assertNotEmpty($responseDecoded);
         self::assertNotSame($res[0], $responseDecoded);
-        self::assertContains("author", $responseContent);
+        self::assertContains('author', $responseContent);
     }
-
-    
 
     private function getPayLoad(): string
     {

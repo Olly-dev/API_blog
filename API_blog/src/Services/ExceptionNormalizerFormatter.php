@@ -12,7 +12,7 @@ class ExceptionNormalizerFormatter implements ExceptionNormalizerFormatterInterf
     {
         return [
             'code' => $statusCode,
-            'message' => $message
+            'message' => $message,
         ];
     }
 }

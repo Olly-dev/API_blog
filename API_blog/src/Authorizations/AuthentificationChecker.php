@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Authorizations;
 
-use App\Authorizations\AuthentificationCheckerInterface;
 use App\Exceptions\ResourceAccessException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
@@ -21,12 +20,8 @@ class AuthentificationChecker implements AuthentificationCheckerInterface
 
     public function isAuthenticated(): void
     {
-        if(null === $this->user) {
-            throw new ResourceAccessException(
-                        Response::HTTP_UNAUTHORIZED,
-                        self::ERROR_MESSAGE
-            );
+        if (null === $this->user) {
+            throw new ResourceAccessException(Response::HTTP_UNAUTHORIZED, self::ERROR_MESSAGE);
         }
     }
-
 }

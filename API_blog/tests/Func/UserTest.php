@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Func;
 
 use App\DataFixtures\AppFixtures;
+use Faker\Factory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Faker\Factory; 
 
 /**
- * Functional creation test api users
+ * Functional creation test api users.
  */
 class UserTest extends AbstractEndPoint
 {
@@ -19,12 +19,12 @@ class UserTest extends AbstractEndPoint
     public function testGetUsers(): void
     {
         $response = $this->getResponseFromRequest(
-                                Request::METHOD_GET, 
-                                '/api/users',
-                                '',
-                                [],
-                                false
-                            );
+            Request::METHOD_GET,
+            '/api/users',
+            '',
+            [],
+            false
+        );
         $responseContent = $response->getContent();
         $responseDecoded = json_decode($responseContent);
 
@@ -36,10 +36,10 @@ class UserTest extends AbstractEndPoint
     public function testGetDefaultUser(): int
     {
         $response = $this->getResponseFromRequest(
-            Request::METHOD_GET, 
+            Request::METHOD_GET,
             '/api/users',
             '',
-            ['email'=> AppFixtures::DEFAULT_USER['email']],
+            ['email' => AppFixtures::DEFAULT_USER['email']],
             false
         );
         $responseContent = $response->getContent();
@@ -60,12 +60,12 @@ class UserTest extends AbstractEndPoint
     public function testPutDefaultUsers(int $id): void
     {
         $response = $this->getResponseFromRequest(
-                                    Request::METHOD_PUT, 
-                                    '/api/users/'.$id, 
-                                    $this->getPayLoad(),
-                                    [],
-                                    false
-                            );
+            Request::METHOD_PUT,
+            '/api/users/'.$id,
+            $this->getPayLoad(),
+            [],
+            false
+        );
         $responseContent = $response->getContent();
         $responseDecoded = json_decode($responseContent);
 
@@ -82,12 +82,12 @@ class UserTest extends AbstractEndPoint
     public function testPatchDefaultUsers(int $id): void
     {
         $response = $this->getResponseFromRequest(
-                                    Request::METHOD_PATCH, 
-                                    '/api/users/'.$id, 
-                                    $this->getPayLoad(),
-                                    [],
-                                    false
-                            );
+            Request::METHOD_PATCH,
+            '/api/users/'.$id,
+            $this->getPayLoad(),
+            [],
+            false
+        );
         $responseContent = $response->getContent();
         $responseDecoded = json_decode($responseContent);
 
@@ -104,12 +104,12 @@ class UserTest extends AbstractEndPoint
     public function testDeleteDefaultUsers(int $id): void
     {
         $response = $this->getResponseFromRequest(
-                                    Request::METHOD_DELETE, 
-                                    '/api/users/'.$id, 
-                                    $this->getPayLoad(),
-                                    [],
-                                    false
-                            );
+            Request::METHOD_DELETE,
+            '/api/users/'.$id,
+            $this->getPayLoad(),
+            [],
+            false
+        );
         $responseContent = $response->getContent();
         $responseDecoded = json_decode($responseContent);
 
@@ -123,12 +123,12 @@ class UserTest extends AbstractEndPoint
     public function testPostUsers(): int
     {
         $response = $this->getResponseFromRequest(
-                                    Request::METHOD_POST, 
-                                    '/api/users', 
-                                    $this->getPayLoad(),
-                                    [],
-                                    false
-                            );
+            Request::METHOD_POST,
+            '/api/users',
+            $this->getPayLoad(),
+            [],
+            false
+        );
         $responseContent = $response->getContent();
         $responseDecoded = json_decode($responseContent, true);
 
@@ -147,14 +147,12 @@ class UserTest extends AbstractEndPoint
     public function testDeleteOtherUsersWithJWT(int $id): void
     {
         $response = $this->getResponseFromRequest(
-                                    Request::METHOD_DELETE, 
-                                    '/api/users/'.$id
-                            );
+            Request::METHOD_DELETE,
+            '/api/users/'.$id
+        );
 
         $responseContent = $response->getContent();
         $responseDecoded = json_decode($responseContent, true);
-
-        
 
         self::assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
         self::assertJson($responseContent);
@@ -168,9 +166,9 @@ class UserTest extends AbstractEndPoint
     public function testDeleteDefaultUsersWithJWT(int $id): void
     {
         $response = $this->getResponseFromRequest(
-                                    Request::METHOD_DELETE, 
-                                    '/api/users/'.$id
-                            );
+            Request::METHOD_DELETE,
+            '/api/users/'.$id
+        );
 
         self::assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
     }
@@ -178,12 +176,12 @@ class UserTest extends AbstractEndPoint
     public function testPostDefaultUsers(): void
     {
         $response = $this->getResponseFromRequest(
-                                    Request::METHOD_POST, 
-                                    '/api/users', 
-                                    json_encode(AppFixtures::DEFAULT_USER),
-                                    [],
-                                    false
-                            );
+            Request::METHOD_POST,
+            '/api/users',
+            json_encode(AppFixtures::DEFAULT_USER),
+            [],
+            false
+        );
         $responseContent = $response->getContent();
         $responseDecoded = json_decode($responseContent, true);
 
@@ -197,12 +195,12 @@ class UserTest extends AbstractEndPoint
     public function testPostSameDefaultUsers(): void
     {
         $response = $this->getResponseFromRequest(
-                                    Request::METHOD_POST, 
-                                    '/api/users', 
-                                    json_encode(AppFixtures::DEFAULT_USER),
-                                    [],
-                                    false
-                            );
+            Request::METHOD_POST,
+            '/api/users',
+            json_encode(AppFixtures::DEFAULT_USER),
+            [],
+            false
+        );
         $responseContent = $response->getContent();
         $responseDecoded = json_decode($responseContent, true);
 
@@ -219,5 +217,4 @@ class UserTest extends AbstractEndPoint
 
         return sprintf($this->userPayload, $faker->email);
     }
-
 }

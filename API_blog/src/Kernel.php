@@ -43,5 +43,5 @@ class Kernel extends BaseKernel
         parent::build($container);
 
         $container->addCompilerPass(new ExceptionNormalizerPass());
-    }    
+    }
 }

@@ -9,7 +9,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 trait Timestampable
 {
     /**
-     * @var \DatetimeInterface
      * @ORM\Column (type="datetime")
      * @Groups({"article:read","user:read", "article:details:read"})
      */
@@ -22,16 +21,19 @@ trait Timestampable
      */
     private ?\DateTimeInterface $updatedAt;
 
-    function getCreatedAt(): \DateTimeInterface
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }
-    function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
-    function getUpdatedAt(): ?\DateTimeInterface
+
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }

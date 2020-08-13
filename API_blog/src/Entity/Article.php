@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\ArticleUpdatedAt;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
-use App\Controller\ArticleUpdatedAt;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
- * @ApiResource( 
+ * @ApiResource(
  *      normalizationContext={"groups"={"article:read"}},
  *      normalizationContext={"groups"={"article:details:read"}},
  *      collectionOperations={"get", "post"},
@@ -58,7 +58,6 @@ class Article
     {
         $this->createdAt = new \DateTimeImmutable();
     }
-
 
     public function getName(): ?string
     {

@@ -11,7 +11,7 @@ class ResourceAccessExceptionNormalizer extends AbstractNormalizer
     public function normalize(\Exception $exception): array
     {
         return $this->exceptionNormalizerFormatter->format(
-            $exception->getMessage(), 
+            $exception->getMessage(),
             Response::HTTP_UNAUTHORIZED
         );
     }
